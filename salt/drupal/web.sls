@@ -1,3 +1,8 @@
+gcc:
+  pkg:
+    - name: gcc
+    - installed
+
 apache2:
   pkg:
     - name: apache2
