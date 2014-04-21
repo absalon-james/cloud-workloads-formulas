@@ -20,7 +20,7 @@ salt-master:
 /tmp/cloud-workloads.tar.gz:
   file.managed:
     - source: http://91130b1325445faefa46-0a57a58cc8418ee081f89836dd343dea.r74.cf1.rackcdn.com/cloud_workloads-0.1.01.tar.gz
-    - source_hash: md5=5e503f5deea000c59972e25b5b37a70f
+    - source_hash: md5=cdd60f88e763bb41194597ba1340a37d
 
 pip install --upgrade /tmp/cloud-workloads.tar.gz:
   cmd.run:
