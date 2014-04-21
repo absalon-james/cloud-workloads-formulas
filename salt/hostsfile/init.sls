@@ -11,7 +11,13 @@
 
 #{   %- set addrs = salt['mine.get']('*', 'network.ip_addrs') %}
 {%- set intface = salt['pillar.get']('interfaces:private', 'eth0') %}
-{%- set addrs = salt['publish.publish']('*', 'network.ip_addrs', [intface]) %}
+{%- set all_interfaces = salt['mine.get']('*', 'network.interfaces') %}
+{%- set addrs = {} %}
+{%- for name, interfaces in all_interfaces.items() %}
+{% set ip = [interfaces[intface]['inet'][0]['address']] %}
+{% do addrs.update({name: ip}) %}
+{% endfor %}
+#{%- set addrs = salt['publish.publish']('*', 'network.ip_addrs', [intface]) %}
 
 {%- if addrs is defined %}
 {%- set if = grains['maintain_hostsfile_interface'] %}

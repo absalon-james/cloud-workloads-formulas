@@ -56,7 +56,9 @@
 {%- set real_config_dist = alt_config + '.dist' %}
 
 # TODO: https://github.com/accumulo/hadoop-formula/issues/1 'Replace direct mine.get calls'
-{%- set namenode_host  = salt['mine.get']('roles:hadoop_master', 'network.interfaces', 'grain').keys()|first() %}
+#{%- set namenode_host  = salt['mine.get']('roles:hadoop_master', 'network.interfaces', 'grain').keys()|first() %}
+{%- set intface = salt['pillar.get']("interfaces:private", "eth0") %}
+{%- set namenode_host = salt['mine.get']('roles:hadoop_master', 'network.interfaces', 'grain').values()[0][intface]['inet'][0]['address'] %}
 {%- set datanode_count = salt['mine.get']('roles:hadoop_slave', 'network.ip_addrs', 'grain').keys()|count() %}
 
 {%- if hdfs_repl_override == 'x' %}
