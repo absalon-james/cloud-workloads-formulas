@@ -175,7 +175,7 @@ worker_threads: 20
 
 # Allow minions to push files to the master. This is disabled by default, for
 # security purposes.
-#file_recv: False 
+file_recv: True
 
 #####    Master Module Management    #####
 ##########################################
