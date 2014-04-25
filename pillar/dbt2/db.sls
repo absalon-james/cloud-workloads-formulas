@@ -3,5 +3,5 @@ db:
   password: dbt2
   database: dbt2
   host: "'%'"
-  warehouses: 5
+  warehouses: 10
   mysql_path: /usr/lib/mysql

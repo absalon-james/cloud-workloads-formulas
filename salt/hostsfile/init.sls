@@ -2,14 +2,17 @@
 # the minion id has to be the fqdn for this to work
 
 {%- set fqdn = grains['id'] %}
-# example configuration for /etc/salt/minion:
-#
-# mine_functions:
-#  network.ip_addrs:
-#    - eth1
-#  mine_interval: 2
 
-#{   %- set addrs = salt['mine.get']('*', 'network.ip_addrs') %}
+# Clean hosts file
+{% set ips = salt['network.ipaddrs']() %}
+{% for ip in ips %}
+clean-{{ ip }}:
+  host.absent:
+    - ip: {{ ip }}
+    - names:
+      - {{ fqdn }}
+{% endfor %}
+
 {%- set intface = salt['pillar.get']('interfaces:private', 'eth0') %}
 {%- set all_interfaces = salt['mine.get']('*', 'network.interfaces') %}
 {%- set addrs = {} %}
@@ -17,7 +20,6 @@
 {% set ip = [interfaces[intface]['inet'][0]['address']] %}
 {% do addrs.update({name: ip}) %}
 {% endfor %}
-#{%- set addrs = salt['publish.publish']('*', 'network.ip_addrs', [intface]) %}
 
 {%- if addrs is defined %}
 {%- set if = grains['maintain_hostsfile_interface'] %}
