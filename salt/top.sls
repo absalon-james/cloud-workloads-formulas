@@ -30,6 +30,10 @@ base:
     - match: grain
     - magento.web
 
+  'roles:magento_gatling':
+    - match: grain
+    - magento.gatling
+
   ############################
   ## DBT2 ####################
   ############################

@@ -16,23 +16,31 @@ requirements:
     - name: /etc/mysql/my.cnf
     - source: salt://dbt2/files/my.cnf
 
-cpan:
-  cmd.run:
-    - name: cpan
+/root/.cpan/CPAN/MyConfig.pm:
+  file.managed:
+    - source: salt://dbt2/files/MyConfig.pm
+    - makedirs: True    
 
 perl-statistics-descriptive:
-  cmd.wait:
-    - name: cpan install Statistics::Descriptive
-    - watch:
-      - cmd: cpan
+  cmd.run:
+    - name: cpan -j /root/.cpan/CPAN/MyConfig.pm install Statistics::Descriptive
+    - require:
+      - pkg: requirements
+      - file: /root/.cpan/CPAN/MyConfig.pm
 
 perl-test-parser:
   cmd.run:
-    - name: cpan install Test::Parser
+    - name: cpan -j /root/.cpan/CPAN/MyConfig.pm install Test::Parser
+    - require:
+      - pkg: requirements
+      - file: /root/.cpan/CPAN/MyConfig.pm
 
 perl-test-reporter:
   cmd.run:
-    - name: cpan install Test::Reporter
+    - name: cpan -j /root/.cpan/CPAN/MyConfig.pm install Test::Reporter
+    - require:
+      - pkg: requirements
+      - file: /root/.cpan/CPAN/MyConfig.pm
 
 /opt/dbt2.tar.gz:
   file.managed:
