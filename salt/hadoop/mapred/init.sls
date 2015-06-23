@@ -41,6 +41,7 @@ make-tempdir:
     - user: hdfs
     - name: {{ hadoop['dfs_cmd'] }} -mkdir /tmp
     - unless: {{ hadoop['dfs_cmd'] }} -stat /tmp
+    - shell: /bin/bash
     - require:
       - service: hdfs-services
 
@@ -49,6 +50,7 @@ set-tempdir:
     - user: hdfs
     - watch:
       - cmd: make-tempdir
+    - shell: /bin/bash
     - names:
       - {{ hadoop['dfs_cmd'] }} -chmod 777 /tmp
 {%- if hadoop.major_version == '2' %}

@@ -45,7 +45,6 @@ hadoop-home-link:
     - path: {{ hadoop['real_home'] }}
     - priority: 30
     - require:
-#      - cmd.run: unpack-hadoop-dist
       - cmd: unpack-hadoop-dist
 
 {{ hadoop['real_home'] }}:
@@ -56,7 +55,6 @@ hadoop-home-link:
       - user
       - group
     - require:
-#      - cmd.run: unpack-hadoop-dist
       - cmd: unpack-hadoop-dist
 
 {%- if hadoop.cdhmr1 %}
@@ -122,8 +120,6 @@ move-hadoop-dist-conf:
     - require:
       - file: {{ hadoop['real_home'] }}
       - file: /etc/hadoop
-      #- file.directory: {{ hadoop['real_home'] }}
-      #- file.directory: /etc/hadoop
 
 {{ real_config_src }}:
   file.symlink:
@@ -137,7 +133,6 @@ hadoop-conf-link:
     - path: {{ hadoop['real_config'] }}
     - priority: 30
     - require:
-#      - file.directory: {{ hadoop['real_config'] }}
       - file: move-hadoop-dist-conf
 
 {{ hadoop['real_config'] }}/log4j.properties:
@@ -148,7 +143,6 @@ hadoop-conf-link:
     - mode: 644
     - require:
       - file: {{ hadoop['real_config'] }}
-#      - alternatives.install: hadoop-conf-link
       - alternatives: hadoop-conf-link
 
 {{ hadoop['real_config'] }}/hadoop-env.sh:
@@ -159,7 +153,6 @@ hadoop-conf-link:
     - user: root
     - group: root
     - context:
-      #java_home: {{ salt['pillar.get']('java_home', '/usr/lib/java') }}
       java_home: {{ salt['pillar.get']('java_home', '/usr/lib/jvm/java-7-openjdk-amd64') }}
       hadoop_home: {{ hadoop['alt_home'] }}
       hadoop_config: {{ hadoop['alt_config'] }}
@@ -173,7 +166,6 @@ hadoop-conf-link:
     - user: root
     - group: root
     - context:
-      #java_home: {{ salt['pillar.get']('java_home', '/usr/lib/java') }}
       java_home: {{ salt['pillar.get']('java_home', '/usr/lib/jvm/java-7-openjdk-amd64') }}
       hadoop_home: {{ hadoop['alt_home'] }}
       hadoop_config: {{ hadoop['alt_config'] }}

@@ -12,9 +12,23 @@ services:
       - hadoop-jobtracker
       - hadoop-tasktracker
 
-leftovers:
+leftovers-hdfs:
   cmd.run:
-    - name: pkill -f hadoop
+    - name: pkill -u hdfs
+    - require:
+      - service: services
+
+leftovers-jobtracker:
+  cmd.run:
+    - name: pkill -f jobtracker
+    - require:
+      - service: services
+
+leftovers-tasktracker:
+  cmd.run:
+    - name: pkill -f tasktracker
+    - require:
+      - service: services
 
 {%- set hdfs_disks = salt['grains.get']('hdfs_data_disks', ['/data']) %}
 {% set mapred_disks = salt['pillar.get']('mapred_data_disks', ['/data']) %}
@@ -73,12 +87,13 @@ hdfs-user:
   user.absent:
     - name: hdfs
     - purge: True
+    - force: True
 
 mapred-user:
   user.absent:
     - name: 'mapred'
     - purge: True
+    - force: True
 
 hadoop:
-  group.absent:
-    - gid: {{ hadoop_users.get('hadoop', '6000') }}
+  group.absent

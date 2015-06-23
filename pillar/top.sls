@@ -3,6 +3,7 @@ base:
   '*':
     - java
     - interfaces
+    - mine
 
   'roles:drupal_mysql_master':
     - match: grain

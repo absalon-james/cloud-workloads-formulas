@@ -42,3 +42,8 @@ nosetests.xml
 
 *gatling-charts-highcharts-2.0.0-M3a-bundle.tar.gz
 *jdk-7u51-linux-x64.tar.gz
+
+# Misc
+salt/hadoop/files/dsa-hdfs
+salt/hadoop/files/dsa-mapred
+salt/hadoop/files/dsa-yarn

@@ -87,6 +87,7 @@ format-namenode:
 {% endif %}
     - user: hdfs
     - unless: test -d {{ test_folder }}
+    - shell: /bin/bash
 
 /etc/init.d/hadoop-namenode:
   file.managed:

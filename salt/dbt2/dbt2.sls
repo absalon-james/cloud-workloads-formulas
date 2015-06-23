@@ -10,6 +10,7 @@ requirements:
       - libexpat1-dev
       - libmysqlclient-dev
       - mysql-client
+      - libwww-perl
 
 /etc/mysql/my.cnf:
   file.managed:
@@ -19,28 +20,17 @@ requirements:
 /root/.cpan/CPAN/MyConfig.pm:
   file.managed:
     - source: salt://dbt2/files/MyConfig.pm
-    - makedirs: True    
+    - makedirs: True
 
-perl-statistics-descriptive:
+{%- set perl_modules = ['Statistics::Descriptive', 'Test::Parser', 'Test::Reporter'] -%}
+{% for module in perl_modules %}
+perl-{{ module }}:
   cmd.run:
-    - name: cpan -j /root/.cpan/CPAN/MyConfig.pm install Statistics::Descriptive
+    - name: cpan -j /root/.cpan/CPAN/MyConfig.pm install {{ module }}
     - require:
       - pkg: requirements
       - file: /root/.cpan/CPAN/MyConfig.pm
-
-perl-test-parser:
-  cmd.run:
-    - name: cpan -j /root/.cpan/CPAN/MyConfig.pm install Test::Parser
-    - require:
-      - pkg: requirements
-      - file: /root/.cpan/CPAN/MyConfig.pm
-
-perl-test-reporter:
-  cmd.run:
-    - name: cpan -j /root/.cpan/CPAN/MyConfig.pm install Test::Reporter
-    - require:
-      - pkg: requirements
-      - file: /root/.cpan/CPAN/MyConfig.pm
+{% endfor %}
 
 /opt/dbt2.tar.gz:
   file.managed:

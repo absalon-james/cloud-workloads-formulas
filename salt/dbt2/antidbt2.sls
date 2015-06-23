@@ -9,6 +9,7 @@ requirements:
       - libmysqlclient-dev
       - mysql-client
       - mysql-common
+      - libwww-perl
 
 /opt/dbt2.tar.gz:
   file.absent:
